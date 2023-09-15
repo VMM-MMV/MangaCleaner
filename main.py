@@ -31,6 +31,9 @@ def process_and_detect(img_path, output_prefix):
     binarized_img = gray_img.point(lambda p: p < threshold and 255)
     draw_boxes_on_image(binarized_img, f'{output_prefix}_binarized.png')
 
+    edge_enhanced_img =  binarized_img.filter(ImageFilter.FIND_EDGES)
+    draw_boxes_on_image(binarized_img, f'{output_prefix}_edges.png')
+
     # # Resize (enlarge)
     # resized_img = original_img.resize((original_img.width*2, original_img.height*2), Image.BICUBIC)
     # draw_boxes_on_image(resized_img, f'{output_prefix}_resized.png')
