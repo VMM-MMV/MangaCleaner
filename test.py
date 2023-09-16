@@ -18,17 +18,15 @@ def detect_alternating_pattern(arr):
 
 def return_bundle_of_text(segments):
     li = []
-    i = 0
-    while(i < len(segments)-1):
-        small_li = []
+    small_li = []
+    for i in segments:
         
-        while (segments[i][0] == 255) and (segments[i][1] >= 10) or ((segments[i][0] == 0) and (segments[i][0] <= 15)):
-            small_li.append(segments[i])
-            i += 1
-        i += 1
-
-        if(len(small_li) > 1):
-            li.append(small_li)
+        if (i[1] >= 5) and (i[1] <= 20):
+                small_li.append(i)
+        else:
+            if len(small_li) > 5:
+                li.append(small_li)
+            small_li = []
 
     return sorted(li, key=len)[::-1]
 
@@ -36,9 +34,8 @@ def return_start_and_end_coordinates_of_bundle(line):
     coordinates = []
     segments = detect_alternating_pattern(line)
     bundles = return_bundle_of_text(segments)
-    for i in bundles:
-        coordinates.append((i[1][2], i[-1][2]))
-    print(coordinates)
+    for bundle in bundles:
+        coordinates.append((bundle[0][2], bundle[-1][2]))
     return coordinates
 
 

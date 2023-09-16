@@ -1,6 +1,4 @@
-from PIL import Image, ImageDraw, ImageFilter, ImageOps
-import pytesseract
-import cv2
+from PIL import Image, ImageDraw
 import numpy as np
 from test import *
 
@@ -8,7 +6,6 @@ from test import *
 #             # Convert numpy array row to string and write to file
 #             f.write(' '.join(map(str, np_image[i])))
 
-# Your initial code:
 original_img = Image.open('img.jpg')
 draw = ImageDraw.Draw(original_img)
 gray_img = original_img.copy().convert('L')
@@ -21,18 +18,9 @@ np_image = np.array(binarized_img)
 
 # Go through each line
 for i in range(np_image.shape[0]):
-    try:
-        # print(np_image[i])
         coordinates = return_start_and_end_coordinates_of_bundle(np_image[i])
         if coordinates:
             for cord in coordinates:
-                
-                draw.line([(cord[0], i), (cord[1], i)], fill="black", width=5)
-        print(coordinates)
-        with open("aa.txt", "a") as f:
-                # Convert numpy array row to string and write to file
-            f.write(f'{coordinates}\n')
-    except:
-        pass
+                draw.line([(cord[0], i), (cord[1], i)], fill="black", width=115)
 
 original_img.save("a.jpg")
