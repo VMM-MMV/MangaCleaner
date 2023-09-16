@@ -17,6 +17,7 @@ def detect_alternating_pattern(arr):
 
 
 def get_bundles_of_text(segments):
+
     bundles = []
     bundle = []
     for segment in segments:
@@ -50,9 +51,7 @@ def get_scattered_text_line_coordinates_into_boxes(image):
     # Go through each line of the image
     for i in range(np_image.shape[0]):
             coordinates = get_start_and_end_coordinates_of_bundle(np_image[i])
-            # if coordinates:
-            #     for start, end in coordinates:
-            #         draw.line([(start, i), (end, i)], fill="black", width=115)
+
             if coordinates:
                     amount_of_null_lists = 0
                     for coord in coordinates:
