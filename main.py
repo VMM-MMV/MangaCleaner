@@ -8,7 +8,9 @@ from test import *
 
 original_img = Image.open('img.jpg')
 draw = ImageDraw.Draw(original_img)
-gray_img = original_img.copy().convert('L')
+
+gray_img = original_img.convert('L')
+
 threshold = 254
 binarized_img = gray_img.point(lambda p: p < threshold and 255)
 
@@ -20,7 +22,7 @@ np_image = np.array(binarized_img)
 for i in range(np_image.shape[0]):
         coordinates = return_start_and_end_coordinates_of_bundle(np_image[i])
         if coordinates:
-            for cord in coordinates:
-                draw.line([(cord[0], i), (cord[1], i)], fill="black", width=115)
+            for start, end in coordinates:
+                draw.line([(start, i), (end, i)], fill="black", width=115)
 
 original_img.save("a.jpg")
