@@ -28,19 +28,28 @@ gray_img = original_img.copy().convert('L')
 threshold = 254
 binarized_img = gray_img.point(lambda p: p < threshold and 255)
 
-# Convert PIL image to OpenCV format
-np_image = np.array(binarized_img)
 
-# Get half width for transformation logic
-half_width = np_image.shape[1] // 2
+def get_text_box(data):
+    boxes = []
+
+    for items in data:
+        min_y = float('inf')
+        max_y = float('-inf')
+        min_x = float('inf')
+        max_x = float('-inf')
+        for item in items:
+            y, x_start, x_end = item
+            min_y = min(min_y, y)
+            max_y = max(max_y, y)
+            min_x = min(min_x, x_start)
+            max_x = max(max_x, x_end)
+
 
 # Go through each line
 for i in range(np_image.shape[0]):
-    try:
-        # print(np_image[i])
         coordinates = return_start_and_end_coordinates_of_bundle(np_image[i])
         if coordinates:
-            for cord in coordinates:
-                draw.line([(cord[0], i), (cord[1], i)], fill="black", width=115)
+            for start, end in coordinates:
+                draw.line([(start, i), (end, i)], fill="black", width=115)
 
-original_img.save("a.jpg")
+original_img.save("a_with_boxes.jpg")
