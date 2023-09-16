@@ -1,6 +1,4 @@
-from PIL import Image, ImageDraw, ImageFilter, ImageOps
-import pytesseract
-import cv2
+from PIL import Image, ImageDraw
 import numpy as np
 
 import numpy as np
@@ -24,7 +22,6 @@ def detect_alternating_pattern(arr, min_length=5):
 
 
 
-# Your initial code:
 original_img = Image.open('img.jpg')
 draw = ImageDraw.Draw(original_img)
 gray_img = original_img.convert('L')
@@ -39,11 +36,18 @@ half_width = np_image.shape[1] // 2
 
 # Go through each line
 for i in range(np_image.shape[0]):
-    if i == 150:
-        with open("output.txt", "w") as f:
-            # Convert numpy array row to string and write to file
-            f.write(' '.join(map(str, np_image[i])))
-        
-        index = detect_alternating_pattern(np_image[i])
-        print(index)
-        np_image[i] = 0  # Set the entire row to black
+    try:
+        # print(np_image[i])
+        coordinates = return_start_and_end_coordinates_of_bundle(np_image[i])
+        if coordinates:
+            for cord in coordinates:
+                
+                draw.line([(cord[0], i), (cord[1], i)], fill="black", width=5)
+        print(coordinates)
+        with open("aa.txt", "a") as f:
+                # Convert numpy array row to string and write to file
+            f.write(f'{coordinates}\n')
+    except:
+        pass
+
+original_img.save("a.jpg")
