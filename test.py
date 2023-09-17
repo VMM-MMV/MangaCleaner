@@ -17,19 +17,21 @@ def detect_alternating_pattern(arr):
 
 
 def get_bundles_of_text(segments):
-
     bundles = []
     bundle = []
-    for segment in segments:
-        
-        amount_of_pixels = segment[1]
-        if (amount_of_pixels >= 5) and (amount_of_pixels <= 20):
-                bundle.append(segment)
-        else:
-            if len(bundle) > 5:
+
+    for item in segments:
+        if item[1] > 20:
+            if len(bundle) > 7:
                 bundles.append(bundle)
             bundle = []
+        else:
+            if item[1] > 5:
+                bundle.append(item)
 
+    # if len(bundle) > 7:
+    #     bundles.append(bundle)
+    # print(bundles)
     return bundles
 
 def get_start_and_end_coordinates_of_bundle(line):
@@ -56,7 +58,7 @@ def get_scattered_text_line_coordinates_into_boxes(image):
                     amount_of_null_lists = 0
                     for coord in coordinates:
                         small_li.append((i, coord[0], coord[1])) 
-            elif amount_of_null_lists > 25:
+            elif amount_of_null_lists > 30:
                     if small_li:
                         li.append(small_li)
                     small_li = []
@@ -80,7 +82,7 @@ def get_text_box_that_encompases_text_line_coords(many_text_line_coordinates_in_
             max_x = max(max_x, x_end)
 
         
-        boxes.append((min_x-10, min_y-10, max_x+30, max_y+20))
+        boxes.append((min_x-10, min_y-10, max_x+10, max_y+10))
     return boxes
 
 
@@ -90,10 +92,9 @@ if __name__ == "__main__":
     coordinates = get_start_and_end_coordinates_of_bundle(line)
 
     image = Image.open('img.jpg')
-
     draw = ImageDraw.Draw(image)
 
     for cord in coordinates:
         draw.line([(cord[0], 150), (cord[1], 150)], fill="black", width=100)
 
-    image.show()
+    image.save("aa.jpg")
