@@ -15,21 +15,19 @@ def clean_manga(img, name):
     threshold = 254
     binarized_img = gray_img.point(lambda p: p < threshold and 255)
 
-    # boxes = get_scattered_text_line_coordinates_into_boxes(binarized_img)
+    boxes = get_scattered_text_line_coordinates_into_boxes(binarized_img)
 
-    # for bbox in get_text_box_that_encompases_text_line_coords(boxes):
-    #     min_x, min_y, max_x, max_y = bbox
-    #     draw.rectangle([min_x, min_y, max_x, max_y], fill="black")
+    # for i in boxes:
+    #     print(i)
 
-    np_image = np.array(binarized_img)
-    # Go through each line of the image
-    for i in range(np_image.shape[0]):
-        coordinates = get_start_and_end_coordinates_of_bundle(np_image[i])
-        for cord in coordinates:
-            draw.line([(cord[0], i), (cord[1], i)], fill="black", width=100)
+    # for box in boxes:
+    #     for i in box:
+    #         draw.line([(i[1], i[0]), (i[2], i[0])], fill="red", width=5)
+    for bbox in get_text_box_that_encompases_text_line_coords(boxes):
+        min_x, min_y, max_x, max_y = bbox
+        draw.rectangle([min_x, min_y, max_x, max_y], fill="black")
 
     original_img.save(f"cleaned_{name}.jpg")
 
-for i in range(1,10):
+for i in range(1,2):
     clean_manga(r'/home/miguel/Downloads/image/1000{}.jpg'.format(i), i)
-    print(i,"done")
